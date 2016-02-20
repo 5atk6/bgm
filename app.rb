@@ -5,3 +5,7 @@ require 'open-uri'
 require "sinatra/json"
 
 require './models/bookmark.rb'
+
+get '/' do
+    erb :index
+end
