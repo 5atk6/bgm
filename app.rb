@@ -6,12 +6,15 @@ require "sinatra/json"
 
 require 'net/http'
 require 'json'
+require './models/bgm.rb'
 
 get '/' do
+    @bgms = Bgm.all
     erb :index
 end
 
-post '/add' do
+# 対象の曲を選択
+post '/select' do
     music_title = params[:music_title]
     artist = params[:artist]
     uri = URI("https://itunes.apple.com/jp/search")
@@ -23,9 +26,18 @@ post '/add' do
     
     #json returned_json
     @musics = returned_json["results"]
-    erb :index
-    # BGM.create({
-    #     music_title: params[:music_title],
-    #     itunes_url: 
-    # })
+    erb :select
 end
+
+# データベースに追記
+get '/add/:trackId' do
+    if Bgm.find_by(track_id: params[:trackId])
+        
+    else
+        Bgm.create({
+            track_id: params[:trackId]
+        })        
+    end
+    @bgms = Bgm.all
+    erb :index
+end    
