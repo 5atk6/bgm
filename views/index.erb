@@ -44,17 +44,20 @@
     </div>
   </form>
   
-  <div>
+  <div class="container" style="padding:20px 0">
     <label class="control-label" for="title"><i class="glyphicon glyphicon-star-empty">ランキング</i></label>
-    <% @bgms.each do |bgm| %>
-    <div>
-      <p><%= bgm.artist_id %></p>
-      <p><%= bgm.track_id %></p>
-      <p><%= bgm.artist_name %></p>
-      <p><%= bgm.track_name %></p>
-    </div>
-    <% end %>
+    <table class="table table-striped table-bordered table-hover">
+      <thead>
+        <tr><th>曲名</th><th>アーティスト</th></tr>
+      </thead>
+      <tbody>
+        <% @bgms.each do |bgm| %>
+        <tr><td><%= bgm.track_name %></td><td><%= bgm.artist_name %></td></tr>
+        <% end %>
+      </tbody>
+    </table>
   </div>
+  
 </main>
 </body>
 </html>
