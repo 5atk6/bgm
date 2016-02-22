@@ -39,8 +39,16 @@
           <img src="<%= music["artworkUrl100"] %>">
           <p><%= music["artistName"] %></p>
           <p><%= music["collectionName"] %></p>
-          <p><%= music["trackId"] %></p>
-          <p><a href='/add/<%= music["trackId"] %>'><%= music["trackName"] %></a></p>
+          <p><%= music["trackName"] %></p>
+          <form action="/add" method="post">
+            <input type="hidden" name="artistId" value=<%= music["artistId"] %> >
+            <input type="hidden" name="trackId" value=<%= music["trackId"] %> >
+            <input type="hidden" name="artistName" value=<%= music["artistName"] %> >
+            <input type="hidden" name="trackName" value=<%= music["trackName"] %> >
+            <input type="submit" value="これ">
+          </form>
+          
+          <!-- <p><a href='/add/<%= music["trackId"] %>'><%= music["trackName"] %></a></p> -->
           <a href="<%= music["previeUrl"] %>">サンプル</a>
         </div>
         <% end %>
