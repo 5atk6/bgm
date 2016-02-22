@@ -30,14 +30,18 @@ post '/select' do
 end
 
 # データベースに追記
-get '/add/:trackId' do
-    if Bgm.find_by(track_id: params[:trackId])
+post '/add' do
+    # if Bgm.find_by(track_id: params[:trackId])
         
-    else
+    # else
         Bgm.create({
-            track_id: params[:trackId]
+            artist_id: params[:artistId],
+            track_id: params[:trackId],
+            artist_name: params[:artistName],
+            track_name: params[:trackName]
         })        
-    end
+    #  end
     @bgms = Bgm.all
     erb :index
+    
 end    

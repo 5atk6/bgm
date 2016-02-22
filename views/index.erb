@@ -45,13 +45,16 @@
   </form>
   
   <div>
-    <p>ランキング</p>
+    <label class="control-label" for="title"><i class="glyphicon glyphicon-star-empty">ランキング</i></label>
     <% @bgms.each do |bgm| %>
     <div>
+      <p><%= bgm.artist_id %></p>
       <p><%= bgm.track_id %></p>
+      <p><%= bgm.artist_name %></p>
+      <p><%= bgm.track_name %></p>
     </div>
     <% end %>
-  </div>  
+  </div>
 </main>
 </body>
 </html>

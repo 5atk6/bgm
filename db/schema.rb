@@ -15,6 +15,9 @@ ActiveRecord::Schema.define(version: 20160221044939) do
 
   create_table "bgms", force: :cascade do |t|
     t.integer "track_id"
+    t.integer "artist_id"
+    t.string  "track_name"
+    t.string  "artist_name"
   end
 
   create_table "posts", force: :cascade do |t|
