@@ -8,6 +8,8 @@ require 'net/http'
 require 'json'
 require './models/bgm.rb'
 
+BASE_URL_GOOGLE_MAP = "http://maps.google.com/maps/api/geocode/json"
+
 get '/' do
     @bgms = Bgm.all
     erb :index
@@ -23,9 +25,18 @@ post '/select' do
         country: "JP", media: "music", limit: 10})
     res = Net::HTTP.get_response(uri)
     returned_json = JSON.parse(res.body)
-    
-    #json returned_json
     @musics = returned_json["results"]
+    
+    address = URI.encode(params[:position])
+    reqUrl = "#{BASE_URL_GOOGLE_MAP}?address=#{address}&sensor=false&language=ja"
+    response = Net::HTTP.get_response(URI.parse(reqUrl))
+    data = JSON.parse(response.body)
+    xData = data['results'][0]['geometry']['location']['lat']
+    yData = data['results'][0]['geometry']['location']['lng']
+    Post.create({
+        x: xData,
+        y: yData
+    })
     erb :select
 end
 
@@ -39,7 +50,11 @@ post '/add' do
             track_id: params[:trackId],
             artist_name: params[:artistName],
             track_name: params[:trackName]
-        })        
+        })
+        
+        Post.last.update({
+            bgm_id: Bgm.last.id
+        })
     end
     @bgms = Bgm.all
     erb :index
