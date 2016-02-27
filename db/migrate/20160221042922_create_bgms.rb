@@ -5,6 +5,7 @@ class CreateBgms < ActiveRecord::Migration
       t.integer :artist_id
       t.string  :track_name
       t.string  :artist_name
+      t.integer  :count
       t.timestamp null: false
     end
   end
