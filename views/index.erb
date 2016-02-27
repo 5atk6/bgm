@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>BGM</title>
+  <title>ビグミ−</title>
   <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
   <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
 </head>
@@ -17,7 +17,7 @@
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
     </button>
-    <a class="navbar-brand" href="">BGM</a>
+    <a class="navbar-brand" href="">ビグミ−</a>
   </div>
   <div class="collapse navbar-collapse target">
     <ul class="nav navbar-nav navbar-right">
@@ -52,11 +52,11 @@
     <label class="control-label" for="title"><i class="glyphicon glyphicon-star-empty">ランキング</i></label>
     <table class="table table-striped table-bordered table-hover">
       <thead>
-        <tr><th>曲名</th><th>アーティスト</th></tr>
+        <tr><th>曲名</th><th>アーティスト</th><th>投稿数</th></tr>
       </thead>
       <tbody>
         <% @bgms.each do |bgm| %>
-        <tr><td><%= bgm.track_name %></td><td><%= bgm.artist_name %></td></tr>
+        <tr><td><%= bgm.track_name %></td><td><%= bgm.artist_name %></td><td><%= bgm.count %></td></tr>
         <% end %>
       </tbody>
     </table>
@@ -66,7 +66,7 @@
     <p><i class="glyphicon glyphicon-search">気になる地域で人気のBGMを検索!(都道府県単位でお願いします。)</i></p>
     <form action="/search" method="post">
       <div class="form-group">
-        <input type="text" name="targetArea" class="form-control" placeholder="都道府県">  
+        <input type="text" name="targetPrefecture" class="form-control" placeholder="都道府県">  
       </div>
       <div class="form-group">
         <input type="submit" value="検索" class="btn btn-primary btn-lg"> 
@@ -74,7 +74,6 @@
       
     </form>
   </div>
-  
   
   
 </main>

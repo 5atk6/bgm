@@ -11,7 +11,7 @@ require './models/bgm.rb'
 BASE_URL_GOOGLE_MAP = "http://maps.google.com/maps/api/geocode/json"
 
 get '/' do
-    @bgms = Bgm.all
+    @bgms = Bgm.order("count DESC").take(10)
     erb :index
 end
 
@@ -43,20 +43,52 @@ end
 # データベースに追記
 post '/add' do
     if Bgm.find_by(track_id: params[:trackId])
-        
+        Post.last.update({
+            bgm_id: Bgm.find_by(track_id: params[:trackId]).id
+        })
+        Bgm.find_by(track_id: params[:trackId]).update({
+            count: Bgm.find_by(track_id: params[:trackId]).count + 1
+        })
     else
         Bgm.create({
             artist_id: params[:artistId],
             track_id: params[:trackId],
             artist_name: params[:artistName],
-            track_name: params[:trackName]
+            track_name: params[:trackName],
+            count: 1
         })
-        
+
         Post.last.update({
             bgm_id: Bgm.last.id
         })
     end
-    @bgms = Bgm.all
+    @bgms = Bgm.order("count DESC").take(10)
     erb :index
+end
+
+post '/search' do
+    targetPrefecture = params[:targetPrefecture]
+    @posts = Post.all
+    @posts.each do |post|
+        xData = post.x
+        yData = post.y
+        reqUrl = "#{BASE_URL_GOOGLE_MAP}?latlng=#{xData},#{yData}&sensor=false&language=ja"
+        response = Net::HTTP.get_response(URI.parse(reqUrl))
+        data = JSON.parse(response.body)
+        searchResultPrefecture = data['results'][0]['address_components'][6]['long_name']
+        if targetPrefecture == searchResultPrefecture then
+            
+        end
+    end
     
-end    
+    erb :searchResult
+end
+
+get '/searchResult' do
+    
+    erb :searchResult
+end
+
+get '/howto' do
+    erb :howto
+end
