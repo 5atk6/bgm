@@ -56,7 +56,11 @@
       </thead>
       <tbody>
         <% @bgms.each do |bgm| %>
-        <tr><td><%= bgm.track_name %></td><td><%= bgm.artist_name %></td><td><%= bgm.count %></td></tr>
+        <tr>
+          <td><%= bgm.track_name %></td>
+          <td><%= bgm.artist_name %></td>
+          <td><%= bgm.count %></td>
+        </tr>
         <% end %>
       </tbody>
     </table>
@@ -64,7 +68,7 @@
   
   <div>
     <p><i class="glyphicon glyphicon-search">気になる地域で人気のBGMを検索!(都道府県単位でお願いします。)</i></p>
-    <form action="/search" method="post">
+    <form action="/search" method="get">
       <div class="form-group">
         <input type="text" name="targetPrefecture" class="form-control" placeholder="都道府県">  
       </div>
