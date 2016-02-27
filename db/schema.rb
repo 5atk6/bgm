@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 20160221044939) do
     t.integer "artist_id"
     t.string  "track_name"
     t.string  "artist_name"
+    t.integer "count"
   end
 
   create_table "posts", force: :cascade do |t|
