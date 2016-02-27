@@ -9,6 +9,7 @@ gem 'sinatra-activerecord'
 gem 'nokogiri'
 group :development do
   gem 'sqlite3'
+  gem 'pry'
 end
 
 group :production do
