@@ -22,7 +22,7 @@ post '/select' do
     music_title = params[:music_title]
     artist = params[:artist]
     uri = URI("https://itunes.apple.com/jp/search")
-    uri.query = URI.encode_www_form({term: music_title,
+    uri.query = URI.encode_www_form({term: music_title + artist,
         musicArtist: artist, musicTrack: music_title, 
         country: "JP", media: "music", limit: 10})
     res = Net::HTTP.get_response(uri)
@@ -71,38 +71,21 @@ end
 get '/search' do
     targetPrefecture = params[:targetPrefecture]
     @posts = Post.all
-    # @resultPosts = Post.none
     @resultPosts = []
     @resultBgms = Bgm.none
-    @hoge = "no"
     @posts.each do |pos|
         xData = pos.x
         yData = pos.y
-        # xData = '139.745484'
-        # yData = '35.6585696'
-        # reqUrl = "#{BASE_URL_GOOGLE_MAP}?latlng=#{xData},#{yData}&sensor=false&language=ja"
-        # response = Net::HTTP.get_response(URI.parse(reqUrl))
-        # data = JSON.parse(response.body)
-        # searchResultPrefecture = data['results'][0]['address_components'][6]['long_name']
         reqUrl = "#{BASE_URL_GEO_API}&amp;x=#{xData}&amp;y=#{yData}"
         doc = REXML::Document.new(open(reqUrl))
         searchResultPrefecture = doc.elements['response/location/prefecture'].text
         if targetPrefecture == searchResultPrefecture
             unless @resultPosts.include?(pos.bgm_id)
-                @hoge = pos.bgm_id
                 @resultPosts << pos.bgm_id    
             end
-            
-            
         end
     end
-    @resultBgms = Bgm.find(@resultPosts)
-    # @resultPosts.each do |resultPost|
-    #   @resultBgms << Bgm.find(resultPost.bgm_id) 
-    #   if Bgm.find(resultPost.bgm_id)
-    #      @hoge = "kkk" 
-    #   end
-    # end
+    @resultBgms = Bgm.order("count DESC").find(@resultPosts)
     erb :searchResult
 end
 
